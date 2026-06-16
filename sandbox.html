@@ -9,8 +9,853 @@
         body { background: #12141e; overflow: hidden; margin: 0; }
     </style>
 </head>
-<body><script src="https://cdn.jsdelivr.net/npm/phaser@3.80.1/dist/phaser.min.js"></script>
-<script>"use strict";(()=>{var P={panLimitPad:1,camPanTiles:10,fogRevealUnits:1,fogColor:0,fogAlpha:.96,fogBrushPad:30,travelFade:.4,travelFadeIn:.6,zoneBaseClicks:{Cyan:4,Green:6,Yellow:8,Red:12},gridCellWorld:300,gridCellClickDuration:1.5};var H=6;var Re=6;var W=9;var B={sheepHp:3,harvestSheepDuration:4,sheepRespawnMult:Re};var w={treeHp:2,stumpDuration:3*W,stumpClickDuration:3,treeRegrowDelay:2*W,treeGrowDuration:2,harvestTreeDuration:4};var F={veinHpDefault:120,veinClickDuration:4,veinHpMin:100,veinHpRange:240,veinSizeSmall:180,veinSizeMedium:260,veinClicks:6,veinDepletedPause:4*H,veinRegrowDelay:1.5*H,veinGrowDuration:1.2};var U={cargoCap:10,refineDuration:2,unloadDuration:.5,goldRefineCoins:2,rpsBonusMult:1.25,militaryUpkeepMult:1,incomeTick:10};var G={cargoCap:10,refineDuration:2,rpsBonusMult:1.25,militaryUpkeepMult:1,incomeTick:10};var Ue=10*60;var y={unitSpeedPx:180,unitRange:840,archerAttackRange:300,lancerHpMax:40,archerHpMax:30,peasantHpMax:50,peasantShipOrbitRadius:24,regenCircleMult:1.2,peasantChargeMax:1,archerChargeMax:1,lancerChargeMax:5,unitDockRepairRate:1.5,unitRepairDrainInterval:3,chargeRateMult:1,arcRoutes:[-18,-8,8,18],miningDuration:3,miningLaserInterval:.5,miningSpeedMin:.5,miningSpeedMax:2,repairRate:5,repairMinAlways:1,lancerSpeed:125,lancerShipOrbitRadius:64,lancerOrbitRadius:27,lancerDamage:10,lancerChaseTimeout:3,archerShipOrbitRadius:32,archerOrbitSpeed:.9,archerRange:230,archerDamage:10,workerTrips:{gold:3,wood:3,rawMeat:3}};var Y={miningDuration:3,unitSpeedPx:180,repairRate:5,unitRange:660,archerAttackRange:660,lancerHpMax:50,archerHpMax:50,peasantHpMax:50,unitDockRepairRate:1.5,unitRepairDrainInterval:3,peasantChargeMax:1,archerChargeMax:1,lancerChargeMax:5,lancerDmgBase:6,archerDmgBase:8,warriorDmgBase:10,lancerHpBase:100,archerHpBase:100,warriorHpBase:100};var O={peasant:{color:5605563,label:"peasant T1",shortLabel:"psnt1",cargoCapacity:1},peasant2:{color:4513143,label:"peasant T2",shortLabel:"psnt2",cargoCapacity:2},peasant3:{color:16768307,label:"peasant T3",shortLabel:"psnt3",cargoCapacity:3},lancer:{color:2250239,label:"lancer \xD72",shortLabel:"lnc\xD72",cargoCapacity:0},lancer2:{color:5605631,label:"lancer \xD73",shortLabel:"lnc\xD73",cargoCapacity:0},lancer3:{color:8956671,label:"lancer \xD74",shortLabel:"lnc\xD74",cargoCapacity:0},archer:{color:4500189,label:"archer T1",shortLabel:"arc\xD71",cargoCapacity:0},archer2:{color:4508927,label:"archer T2",shortLabel:"arc\xD72",cargoCapacity:0},archer3:{color:11202303,label:"archer T3",shortLabel:"arc\xD73",cargoCapacity:0},warrior:{color:14513954,label:"warrior",shortLabel:"war\xD71",cargoCapacity:0},warrior2:{color:14496546,label:"warrior T2",shortLabel:"war\xD72",cargoCapacity:0},warrior3:{color:11150045,label:"warrior T3",shortLabel:"war\xD73",cargoCapacity:0}};var C={fortBobAmp:0,fortBobFreq:.002,boostDuration:24,fortHpMax:200,fortSpeed:45,fortRouteRadius:300,fortRouteSpeed:.45,fortAttackRangeMin:330,fortAttackRangeMax:470,fortVisibilityRadius:400,fortClickDuration:4,fortRepairDuration:3,fortRepairHpPercent:3,fortUpgradeCostPerLevel:[50,100,200],fortUpgradeStepsPerLevel:[5,10,20],fortSections:3};var z={fortHpMax:200};(function e(){const r=C.fortUpgradeCostPerLevel;const n=C.fortUpgradeStepsPerLevel;for(let t=0;t<r.length;t++){const a=r[t];const o=n[t];if(!o||a%o!==0||100%o!==0){const i=[1,2,4,5,10,20,25,50,100].filter(p=>a%p===0&&100%p===0);const x=[1,2,4,5,10,20,25,50,100].map(p=>Math.round(a/p)*p).filter((p,h,E)=>E.indexOf(p)!==-1&&n.every((T,c)=>c!==t||p%n[c]===0));console.warn(`[fort] Level ${t}: cost=${a} not cleanly divisible by steps=${o}. Suggested steps: ${i.join(", ")} | costs divisible by current steps[${t}]=${o}: ${x.join(", ")}`)}}})();var V={towerUpgradeCostPerLevel:[5,50,100],towerUpgradeStepsPerLevel:[5,10,20],towerSections:3};var j={lighthouseUpgradeCostPerLevel:[5,10,15],lighthouseUpgradeStepsPerLevel:[5,10,15]};var K={archeryUpgradeCostPerLevel:[5,50,100],archeryUpgradeStepsPerLevel:[5,10,20]};var q={barracksUpgradeCostPerLevel:[5,50,100],barracksUpgradeStepsPerLevel:[5,10,20]};var $={tavernUpgradeCostPerLevel:[50,100,200],tavernUpgradeStepsPerLevel:[5,10,20]};var J={lumberjackHouseUpgradeCostPerLevel:[50,100,200],lumberjackHouseUpgradeStepsPerLevel:[5,10,20]};var X={jewelryWorkshopUpgradeCostPerLevel:[50,100,200],jewelryWorkshopUpgradeStepsPerLevel:[5,10,20]};var Q={junkDamage:8,clickDamage:10,harasserClickDuration:2,torchClickDuration:4,autoClickInterval:.4,tntFireRange:300,barrelShoreRadius:420,barrelSpawnDist:720,barrelSkySpeed:180,barrelGroundSpeed:55,barrelIdleDuration:3,barrelRunDuration:2.5,barrelAttackRadius:45,barrelExplosionRadius:100,barrelClickDuration:3,hpRegenRate:1,formationMult:1};var Z={junkDamage:1,formationMult:1};var ee={...U,...y,...C,...V,...j,...K,...q,...$,...J,...X,...Q,...P,...B,...w,...F};var Qr={...G,...Y,...z,...Z};var Se={rock:"scissors",scissors:"paper",paper:"rock"};function re(e,r){if(!e||!r)return 1;return Se[e]===r?ee.rpsBonusMult:1}var u={peasant:{role:"peasant",tier:1,hp:100,dmg:0,fireInterval:0,chargeMax:1,cargoCapacity:1,squadSize:1},peasant2:{role:"peasant",tier:2,hp:100,dmg:0,fireInterval:0,chargeMax:2,cargoCapacity:1,squadSize:2},peasant3:{role:"peasant",tier:3,hp:100,dmg:0,fireInterval:0,chargeMax:3,cargoCapacity:1,squadSize:3},lancer:{role:"lancer",tier:1,hp:100,dmg:6,fireInterval:.6,chargeMax:5,cargoCapacity:0,squadSize:2,combatType:"rock"},lancer2:{role:"lancer",tier:2,hp:100,dmg:6,fireInterval:.6,chargeMax:5,cargoCapacity:0,squadSize:4,combatType:"rock"},lancer3:{role:"lancer",tier:3,hp:100,dmg:6,fireInterval:.6,chargeMax:5,cargoCapacity:0,squadSize:6,combatType:"rock"},archer:{role:"archer",tier:1,hp:100,dmg:8,fireInterval:.8,chargeMax:1,cargoCapacity:0,squadSize:1,combatType:"paper"},archer2:{role:"archer",tier:2,hp:100,dmg:8,fireInterval:.8,chargeMax:1,cargoCapacity:0,squadSize:2,combatType:"paper"},archer3:{role:"archer",tier:3,hp:100,dmg:8,fireInterval:.8,chargeMax:1,cargoCapacity:0,squadSize:3,combatType:"paper"},warrior:{role:"warrior",tier:1,hp:100,dmg:10,fireInterval:1,chargeMax:5,cargoCapacity:0,squadSize:1,combatType:"scissors"},warrior2:{role:"warrior",tier:2,hp:100,dmg:10,fireInterval:1,chargeMax:5,cargoCapacity:0,squadSize:1,combatType:"scissors"},warrior3:{role:"warrior",tier:3,hp:100,dmg:10,fireInterval:1,chargeMax:5,cargoCapacity:0,squadSize:1,combatType:"scissors"}};var s={TNT:{color:16755200,hp:100,speed:60,spawnDistMin:350,spawnDistMax:430,attackRange:300,throwSecs:.7,displayPx:128,frameW:192,damage:7,fireInterval:0,clickRadius:18,hpBarW:24,hpBarOffY:10,combatType:"paper"},Torch:{color:16729122,hp:100,speed:50,spawnDistMin:500,spawnDistMax:620,attackRange:100,hitRange:100,damage:6,fireInterval:.6,clickRadius:14,hpBarW:36,hpBarOffY:18,combatType:"scissors"},Dancer:{color:16768307,hp:100,speed:55,spawnDistMin:500,spawnDistMax:620,attackRange:100,hitRange:100,damage:6,fireInterval:.6,clickRadius:14,hpBarW:36,hpBarOffY:18,combatType:"rock"},Boss:{color:11149926,hp:400,speed:28,spawnDistMin:560,spawnDistMax:640,attackRange:300,throwSecs:.7,displayPx:230,frameW:192,damage:40,fireInterval:0,clickRadius:24,hpBarW:56,hpBarOffY:32,clickDurationFactor:1.5,combatType:"paper"}};var M=window.innerWidth;var S=window.innerHeight;var l=220;var k=l+(M-l)/2;var be=S/2;var ge=70;var ae={lancer:{label:"Lancer",color:O.lancer.color,radius:11,hp:u.lancer.hp,dmg:u.lancer.dmg,interval:u.lancer.fireInterval,combatType:u.lancer.combatType,speed:y.lancerSpeed,range:y.lancerOrbitRadius},archer:{label:"Archer",color:O.archer.color,radius:11,hp:u.archer.hp,dmg:u.archer.dmg,interval:u.archer.fireInterval,combatType:u.archer.combatType,speed:y.unitSpeedPx,range:y.archerAttackRange},warrior:{label:"Warrior",color:O.warrior.color,radius:11,hp:u.warrior.hp,dmg:u.warrior.dmg,interval:u.warrior.fireInterval,combatType:u.warrior.combatType,speed:y.unitSpeedPx,range:ge}};var oe={TNT:{label:"TNT",color:s.TNT.color,radius:11,hp:s.TNT.hp,dmg:s.TNT.damage,interval:s.TNT.throwSecs,speed:s.TNT.speed,range:s.TNT.attackRange,combatType:s.TNT.combatType},Torch:{label:"Torch",color:s.Torch.color,radius:11,hp:s.Torch.hp,dmg:s.Torch.damage,interval:s.Torch.fireInterval,speed:s.Torch.speed,range:s.Torch.attackRange,combatType:s.Torch.combatType},Dancer:{label:"Dancer",color:s.Dancer.color,radius:11,hp:s.Dancer.hp,dmg:s.Dancer.damage,interval:s.Dancer.fireInterval,speed:s.Dancer.speed,range:s.Dancer.attackRange,combatType:s.Dancer.combatType},Boss:{label:"Boss",color:s.Boss.color,radius:18,hp:s.Boss.hp,dmg:s.Boss.damage,interval:s.Boss.fireInterval,speed:s.Boss.speed,range:s.Boss.attackRange,combatType:s.Boss.combatType}};function ne(e){if(e==="rock")return"\u25CF";if(e==="scissors")return"\u2702";if(e==="paper")return"\u2261";return"\u2605"}function se(e){if(e==="rock")return"#ff9966";if(e==="scissors")return"#ffdd44";if(e==="paper")return"#88ccff";return"#dd88ff"}var Te=0;var d=[];var _;var g;var ce={};var ie;var b=false;var D=[];var L;var pe;var A;var le;function de(e,r){const n=e==="ally"?ae[r]:oe[r];if(!n)return;const t=60;const a=e==="ally"?M-t-Math.random()*60:l+t+Math.random()*60;const o=80+Math.random()*(S-160);const i=_.add.arc(a,o,n.radius,0,360,false,n.color).setDepth(2);const x=_.add.text(a,o+n.radius+9,ne(n.combatType),{color:se(n.combatType),fontFamily:"monospace",fontSize:"9pt",fontStyle:"bold"}).setOrigin(.5,0).setDepth(3);const p=_.add.text(a,o-n.radius-10,String(n.hp),{color:"#aabbcc",fontFamily:"monospace",fontSize:"7.5pt"}).setOrigin(.5,1).setDepth(4);d.push({id:Te++,side:e,typeName:r,def:n,x:a,y:o,hp:n.hp,fireTimer:n.interval*Math.random(),dead:false,arc:i,rpsLabel:x,hpText:p})}function me(e){e.dead=true;const r=_.add.arc(e.x,e.y,e.def.radius*1.6,0,360,false,e.def.color).setAlpha(.6).setDepth(4);_.tweens.add({targets:r,scaleX:2.2,scaleY:2.2,alpha:0,duration:280,onComplete:()=>r.destroy()});e.arc.destroy();e.rpsLabel.destroy();e.hpText.destroy()}function fe(){for(const e of d){e.dead=true;e.arc.destroy();e.rpsLabel.destroy();e.hpText.destroy()}d=[]}function ue(){L.setFillStyle(b?1120785:666122);L.setStrokeStyle(1,b?3359795:4500036);pe.setColor(b?"#446644":"#88ff88");const e=D.length>0;A.setFillStyle(e?2759176:1709328);A.setStrokeStyle(1,e?11167266:4469538);le.setColor(e?"#ffaa44":"#554433")}function Oe(){if(b)return;D=d.filter(e=>!e.dead).map(e=>({side:e.side,typeName:e.typeName}));b=true;ue()}function te(){if(D.length===0)return;fe();b=false;for(const{side:e,typeName:r}of D)de(e,r);ue()}function Ce(e,r,n,t){const a=e+(Math.random()-.5)*20;const o=_.add.text(a,r-8,`-${Math.round(n)}`,{color:t?"#ff4444":"#44ccff",fontFamily:"monospace",fontSize:"10pt",fontStyle:"bold"}).setOrigin(.5).setDepth(20);_.tweens.add({targets:o,y:o.y-30,duration:700,ease:"Cubic.easeOut",onUpdate:i=>{o.setAlpha(i.progress<.6?1:1-(i.progress-.6)/.4)},onComplete:()=>o.destroy()})}function De(e){d=d.filter(r=>!r.dead);if(!b)return;for(const r of d){const n=d.filter(a=>a.side!==r.side);const t=n.filter(a=>Math.hypot(a.x-r.x,a.y-r.y)<=r.def.range);if(t.length>0){r.fireTimer-=e;if(r.fireTimer<=0){r.fireTimer+=Math.max(r.def.interval,.05);const a=t[Math.floor(Math.random()*t.length)];const o=re(r.def.combatType,a.def.combatType);const i=r.def.dmg*o;a.hp-=i;Ce(a.x,a.y,i,a.side==="ally");if(a.hp<=0)me(a)}}else if(n.length>0){let a=n[0];let o=Math.hypot(n[0].x-r.x,n[0].y-r.y);for(const h of n){const E=Math.hypot(h.x-r.x,h.y-r.y);if(E<o){o=E;a=h}}const i=a.x-r.x,x=a.y-r.y;const p=Math.hypot(i,x);r.x+=i/p*r.def.speed*e;r.y+=x/p*r.def.speed*e;r.arc.setPosition(r.x,r.y)}else{const a=k-r.x,o=be-r.y;const i=Math.hypot(a,o);if(i>20){r.x+=a/i*r.def.speed*.25*e;r.y+=o/i*r.def.speed*.25*e;r.arc.setPosition(r.x,r.y)}}}}function Le(){const e=5;const r=d.length;for(let n=0;n<r;n++){for(let t=n+1;t<r;t++){const a=d[n],o=d[t];const i=o.x-a.x,x=o.y-a.y;const p=Math.hypot(i,x)||.001;const h=a.def.radius+o.def.radius+e;if(p<h){const E=(h-p)*.5;const T=i/p,c=x/p;a.x-=T*E;a.y-=c*E;o.x+=T*E;o.y+=c*E;a.arc.setPosition(a.x,a.y);o.arc.setPosition(o.x,o.y)}}}}function Ae(){for(const e of d){e.rpsLabel.setPosition(e.x,e.y+e.def.radius+9)}}function Me(){g.clear();for(const e of d){if(e.dead)continue;const r=e.def.radius*4;const n=e.def.radius>14?6:4;const t=e.x-r/2,a=e.y-e.def.radius-9;const o=Math.max(0,e.hp/e.def.hp);g.fillStyle(0,.6);g.fillRect(t,a,r,n);g.fillStyle(o>.6?4513092:o>.3?16768290:16729122,1);g.fillRect(t,a,r*o,n);e.hpText.setText(String(Math.ceil(Math.max(0,e.hp))));e.hpText.setPosition(e.x,a-1)}}function Ie(){const e={};for(const t of d){if(!t.dead)e[t.typeName]=(e[t.typeName]??0)+1}for(const[t,a]of Object.entries(ce))a.setText(String(e[t]??0));const r=d.filter(t=>!t.dead&&t.side==="ally").length;const n=d.filter(t=>!t.dead&&t.side==="enemy").length;ie.setText(`Allies: ${r}   Enemies: ${n}`)}function Ne(){const e=_;const r=0;e.add.rectangle(l/2,S/2,l,S,789784).setScrollFactor(r).setDepth(10);const n=e.add.graphics().setScrollFactor(r).setDepth(10);n.lineStyle(1,3359846,.9);n.lineBetween(l,0,l,S);e.add.text(l/2,8,"COMBAT TEST",{color:"#5599cc",fontFamily:"monospace",fontSize:"11pt",fontStyle:"bold"}).setOrigin(.5,0).setScrollFactor(r).setDepth(11);ie=e.add.text(l+10,8,"",{color:"#556677",fontFamily:"monospace",fontSize:"10pt"}).setScrollFactor(r).setDepth(11);let t=36;const a=()=>{const c=e.add.graphics().setScrollFactor(r).setDepth(10);c.lineStyle(1,3359829,.45);c.lineBetween(10,t,l-10,t);t+=8};const o=(c,m)=>{e.add.text(10,t,c,{color:m,fontFamily:"monospace",fontSize:"9pt"}).setScrollFactor(r).setDepth(11);t+=18};const i=(c,m,R)=>{const f=t;e.add.arc(16,f+12,m.radius-1,0,360,false,m.color).setScrollFactor(r).setDepth(11);e.add.text(32,f+4,m.label,{color:"#9aabb8",fontFamily:"monospace",fontSize:"10pt"}).setScrollFactor(r).setDepth(11);e.add.text(32,f+17,ne(m.combatType),{color:se(m.combatType),fontFamily:"monospace",fontSize:"7.5pt"}).setScrollFactor(r).setDepth(11);ce[c]=e.add.text(114,f+5,"0",{color:"#ffdd88",fontFamily:"monospace",fontSize:"10pt"}).setScrollFactor(r).setDepth(11);const _e=e.add.rectangle(143,f+12,24,18,1837064).setStrokeStyle(1,6697779).setScrollFactor(r).setDepth(11).setInteractive({useHandCursor:true});e.add.text(143,f+12,"\u2212",{color:"#ff8888",fontFamily:"monospace",fontSize:"11pt"}).setOrigin(.5).setScrollFactor(r).setDepth(12);_e.on("pointerdown",(Ee,he,ye,I)=>{I.stopPropagation();const N=d.filter(v=>!v.dead&&v.side===R&&v.typeName===c);if(N.length)me(N[N.length-1])});const xe=e.add.rectangle(173,f+12,24,18,531464).setStrokeStyle(1,3368499).setScrollFactor(r).setDepth(11).setInteractive({useHandCursor:true});e.add.text(173,f+12,"+",{color:"#88ff88",fontFamily:"monospace",fontSize:"11pt"}).setOrigin(.5).setScrollFactor(r).setDepth(12);xe.on("pointerdown",(Ee,he,ye,I)=>{I.stopPropagation();de(R,c)});t+=28};o("\u2500\u2500\u2500 ALLIES \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500","#3d5fa0");for(const[c,m]of Object.entries(ae))i(c,m,"ally");a();o("\u2500\u2500\u2500 ENEMIES \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500","#a04030");for(const[c,m]of Object.entries(oe))i(c,m,"enemy");t+=8;const x=e.add.rectangle(l/2,t+13,l-20,24,1706506).setStrokeStyle(1,6702148).setScrollFactor(r).setDepth(11).setInteractive({useHandCursor:true});e.add.text(l/2,t+13,"CLEAR ALL",{color:"#ff6655",fontFamily:"monospace",fontSize:"10pt"}).setOrigin(.5).setScrollFactor(r).setDepth(12);x.on("pointerdown",(c,m,R,f)=>{f.stopPropagation();te();fe()});t+=20;const p=e.add.graphics().setScrollFactor(r).setDepth(10);p.lineStyle(1,3359829,.5);p.lineBetween(10,t,l-10,t);t+=20;L=e.add.rectangle(58,t+13,95,26,666122).setStrokeStyle(1,4500036).setScrollFactor(r).setDepth(11).setInteractive({useHandCursor:true});pe=e.add.text(58,t+13,"START",{color:"#88ff88",fontFamily:"monospace",fontSize:"9pt",fontStyle:"bold"}).setOrigin(.5).setScrollFactor(r).setDepth(12);L.on("pointerdown",(c,m,R,f)=>{f.stopPropagation();Oe()});A=e.add.rectangle(162,t+13,95,26,1709328).setStrokeStyle(1,4469538).setScrollFactor(r).setDepth(11).setInteractive({useHandCursor:true});le=e.add.text(162,t+13,"RESET",{color:"#554433",fontFamily:"monospace",fontSize:"9pt",fontStyle:"bold"}).setOrigin(.5).setScrollFactor(r).setDepth(12);A.on("pointerdown",(c,m,R,f)=>{f.stopPropagation();te()});t+=36;t+=10;const h=e.add.graphics().setScrollFactor(r).setDepth(10);h.lineStyle(1,3359829,.4);h.lineBetween(10,t,l-10,t);t+=10;e.add.text(l/2,t,"RPS BONUSES",{color:"#445566",fontFamily:"monospace",fontSize:"8pt",fontStyle:"bold"}).setOrigin(.5,0).setScrollFactor(r).setDepth(11);t+=17;const E=[["\u25CF","rock","beats","\u2702 scissors"],["\u2702","scissors","beats","\u2261 paper"],["\u2261","paper","beats","\u25CF rock"]];const T={"\u25CF":"#ff9966","\u2702":"#ffdd44","\u2261":"#88ccff"};for(const[c,m,,R]of E){e.add.text(12,t,c,{color:T[c],fontFamily:"monospace",fontSize:"9pt",fontStyle:"bold"}).setScrollFactor(r).setDepth(11);e.add.text(24,t,`${m} > ${R}`,{color:"#667788",fontFamily:"monospace",fontSize:"8pt"}).setScrollFactor(r).setDepth(11);t+=15}t+=4;e.add.text(12,t,"+25% dmg on advantage",{color:"#3a6645",fontFamily:"monospace",fontSize:"7.5pt"}).setScrollFactor(r).setDepth(11);t+=15;e.add.text(12,t," \xD71.0  otherwise",{color:"#3a4455",fontFamily:"monospace",fontSize:"7.5pt"}).setScrollFactor(r).setDepth(11)}new Phaser.Game({type:Phaser.AUTO,width:M,height:S,backgroundColor:"#12141e",scale:{mode:Phaser.Scale.NONE,autoCenter:Phaser.Scale.CENTER_BOTH},scene:{preload:ve,create:Pe,update:Be},render:{antialias:true,antialiasGL:true,pixelArt:false}});function ve(){}function Pe(){_=this;const e=_.add.graphics().setScrollFactor(0).setDepth(1);e.lineStyle(1,3359846,.35);for(let r=0;r<S;r+=16)e.lineBetween(k,r,k,r+8);_.add.text(l+12,8,"ENEMIES \u2192",{color:"#774433",fontFamily:"monospace",fontSize:"10pt"}).setScrollFactor(0).setDepth(10);_.add.text(M-12,8,"\u2190 ALLIES",{color:"#334477",fontFamily:"monospace",fontSize:"10pt"}).setOrigin(1,0).setScrollFactor(0).setDepth(10);g=_.add.graphics().setDepth(3);Ne()}function Be(e,r){De(Math.min(r/1e3,.05));Le();Ae();Me();Ie()}})();
+<body><script>new EventSource('/__lr').onmessage=()=>location.reload()</script>
+<script src="https://cdn.jsdelivr.net/npm/phaser@3.80.1/dist/phaser.min.js"></script>
+<script>"use strict";
+(() => {
+  // src/constants/world.ts
+  var WORLD_C = {
+    panLimitPad: 1,
+    camPanTiles: 10,
+    // max camera drag distance from island center, in tiles
+    fogRevealUnits: 1,
+    fogColor: 0,
+    fogAlpha: 0.96,
+    fogBrushPad: 30,
+    travelFade: 0.4,
+    travelFadeIn: 0.6,
+    zoneBaseClicks: { Cyan: 4, Green: 6, Yellow: 8, Red: 12 },
+    gridCellWorld: 300,
+    // world-px per map grid cell
+    gridCellClickDuration: 1.5
+    // seconds per click-ring fire (1 coin, 1s timer)
+  };
+
+  // src/constants/resources.ts
+  var VEIN_RESPAWN_MULT = 6;
+  var SHEEP_RESPAWN_MULT = 6;
+  var TREE_RESPAWN_MULT = 9;
+  var SHEEP_C = {
+    sheepHp: 3,
+    harvestSheepDuration: 4,
+    sheepRespawnMult: SHEEP_RESPAWN_MULT
+    // getSheepRespawnTime() multiplies by this
+  };
+  var TREE_C = {
+    treeHp: 2,
+    // clicks to fell — denser forest, cheap per tree
+    stumpDuration: 3 * TREE_RESPAWN_MULT,
+    // stump sits before clearing → regrow
+    stumpClickDuration: 3,
+    // (unused: stumps are no longer clickable)
+    treeRegrowDelay: 2 * TREE_RESPAWN_MULT,
+    treeGrowDuration: 2,
+    harvestTreeDuration: 4
+  };
+  var VEIN_C = {
+    veinHpDefault: 120,
+    veinClickDuration: 4,
+    veinHpMin: 100,
+    veinHpRange: 240,
+    veinSizeSmall: 180,
+    veinSizeMedium: 260,
+    // Tree-like depletion cycle: a vein is dug out over a few clicks (player or peon),
+    // sits as an empty tile for a pause, then regrows at a fresh random empty cell (like a
+    // grazed sheep — see updateVeins/pickRandomEmptyCellPos).
+    veinClicks: 6,
+    // clicks (player or peon) to deplete a vein
+    veinDepletedPause: 4 * VEIN_RESPAWN_MULT,
+    // seconds the tile stays empty after depletion
+    veinRegrowDelay: 1.5 * VEIN_RESPAWN_MULT,
+    // seconds before the vein starts growing back
+    veinGrowDuration: 1.2
+    // grow-in animation duration (not scaled)
+  };
+
+  // src/constants/economy.ts
+  var ECONOMY_C = {
+    cargoCap: 10,
+    refineDuration: 2,
+    unloadDuration: 0.5,
+    goldRefineCoins: 2,
+    rpsBonusMult: 1.25,
+    militaryUpkeepMult: 1,
+    incomeTick: 10
+  };
+  var ECONOMY_BASE = {
+    cargoCap: 10,
+    refineDuration: 2,
+    rpsBonusMult: 1.25,
+    militaryUpkeepMult: 1,
+    incomeTick: 10
+  };
+  var OFFLINE_CAP_BASE_SEC = 10 * 60;
+
+  // src/constants/units.ts
+  var UNITS_C = {
+    unitSpeedPx: 180,
+    unitRange: 840,
+    archerAttackRange: 300,
+    lancerHpMax: 40,
+    archerHpMax: 30,
+    peasantHpMax: 50,
+    peasantShipOrbitRadius: 24,
+    regenCircleMult: 1.2,
+    peasantChargeMax: 1,
+    archerChargeMax: 1,
+    lancerChargeMax: 5,
+    unitDockRepairRate: 1.5,
+    unitRepairDrainInterval: 3,
+    chargeRateMult: 1,
+    arcRoutes: [-18, -8, 8, 18],
+    miningDuration: 3,
+    miningLaserInterval: 0.5,
+    miningSpeedMin: 0.5,
+    miningSpeedMax: 2,
+    repairRate: 5,
+    repairMinAlways: 1,
+    // Lancer unit
+    lancerSpeed: 125,
+    lancerShipOrbitRadius: 64,
+    lancerOrbitRadius: 27,
+    lancerDamage: 10,
+    lancerChaseTimeout: 3,
+    // Archer unit
+    archerShipOrbitRadius: 32,
+    archerOrbitSpeed: 0.9,
+    archerRange: 230,
+    archerDamage: 10,
+    // Worker trip-counter defaults
+    workerTrips: { gold: 3, wood: 3, rawMeat: 3 }
+  };
+  var UNITS_BASE = {
+    miningDuration: 3,
+    unitSpeedPx: 180,
+    repairRate: 5,
+    unitRange: 660,
+    archerAttackRange: 660,
+    lancerHpMax: 50,
+    archerHpMax: 50,
+    peasantHpMax: 50,
+    unitDockRepairRate: 1.5,
+    unitRepairDrainInterval: 3,
+    peasantChargeMax: 1,
+    archerChargeMax: 1,
+    lancerChargeMax: 5,
+    lancerDmgBase: 6,
+    archerDmgBase: 8,
+    warriorDmgBase: 10,
+    lancerHpBase: 100,
+    archerHpBase: 100,
+    warriorHpBase: 100
+  };
+  var UNIT_TYPES = {
+    peasant: { color: 5605563, label: "peasant T1", shortLabel: "psnt1", cargoCapacity: 1 },
+    peasant2: { color: 4513143, label: "peasant T2", shortLabel: "psnt2", cargoCapacity: 2 },
+    peasant3: { color: 16768307, label: "peasant T3", shortLabel: "psnt3", cargoCapacity: 3 },
+    lancer: { color: 2250239, label: "lancer \xD72", shortLabel: "lnc\xD72", cargoCapacity: 0 },
+    lancer2: { color: 5605631, label: "lancer \xD73", shortLabel: "lnc\xD73", cargoCapacity: 0 },
+    lancer3: { color: 8956671, label: "lancer \xD74", shortLabel: "lnc\xD74", cargoCapacity: 0 },
+    archer: { color: 4500189, label: "archer T1", shortLabel: "arc\xD71", cargoCapacity: 0 },
+    archer2: { color: 4508927, label: "archer T2", shortLabel: "arc\xD72", cargoCapacity: 0 },
+    archer3: { color: 11202303, label: "archer T3", shortLabel: "arc\xD73", cargoCapacity: 0 },
+    warrior: { color: 14513954, label: "warrior", shortLabel: "war\xD71", cargoCapacity: 0 },
+    warrior2: { color: 14496546, label: "warrior T2", shortLabel: "war\xD72", cargoCapacity: 0 },
+    warrior3: { color: 11150045, label: "warrior T3", shortLabel: "war\xD73", cargoCapacity: 0 }
+  };
+
+  // src/constants/fort.ts
+  var FORT_C = {
+    fortBobAmp: 0,
+    fortBobFreq: 2e-3,
+    boostDuration: 24,
+    fortHpMax: 200,
+    fortSpeed: 45,
+    fortRouteRadius: 300,
+    fortRouteSpeed: 0.45,
+    fortAttackRangeMin: 330,
+    fortAttackRangeMax: 470,
+    fortVisibilityRadius: 400,
+    fortClickDuration: 4,
+    fortRepairDuration: 3,
+    fortRepairHpPercent: 3,
+    // Fort upgrade — total coins and click-count per upgrade (index = current level)
+    // lvl0→1 ("founding") = 50 flat: this is the island-activation cost. Expansion
+    // scaling lives in the map-cell click cost (grid-map.ts), not here. Home is
+    // granted fort lvl1 free at new-game start (startup.ts).
+    fortUpgradeCostPerLevel: [50, 100, 200],
+    fortUpgradeStepsPerLevel: [5, 10, 20],
+    fortSections: 3
+    // visual bar segments + animation milestone count
+  };
+  var FORT_BASE = {
+    fortHpMax: 200
+  };
+  (function validateFortUpgradeArrays() {
+    const costs = FORT_C.fortUpgradeCostPerLevel;
+    const steps = FORT_C.fortUpgradeStepsPerLevel;
+    for (let i = 0; i < costs.length; i++) {
+      const cost = costs[i];
+      const count = steps[i];
+      if (!count || cost % count !== 0 || 100 % count !== 0) {
+        const nearSteps = [1, 2, 4, 5, 10, 20, 25, 50, 100].filter((s) => cost % s === 0 && 100 % s === 0);
+        const nearCost = [1, 2, 4, 5, 10, 20, 25, 50, 100].map((s) => Math.round(cost / s) * s).filter((c, _, a) => a.indexOf(c) !== -1 && steps.every((_2, j) => j !== i || c % steps[j] === 0));
+        console.warn(
+          `[fort] Level ${i}: cost=${cost} not cleanly divisible by steps=${count}. Suggested steps: ${nearSteps.join(", ")} | costs divisible by current steps[${i}]=${count}: ${nearCost.join(", ")}`
+        );
+      }
+    }
+  })();
+
+  // src/constants/tower.ts
+  var TOWER_C = {
+    towerUpgradeCostPerLevel: [5, 50, 100],
+    towerUpgradeStepsPerLevel: [5, 10, 20],
+    towerSections: 3
+  };
+
+  // src/constants/lighthouse.ts
+  var LIGHTHOUSE_C = {
+    lighthouseUpgradeCostPerLevel: [5, 10, 15],
+    lighthouseUpgradeStepsPerLevel: [5, 10, 15]
+  };
+
+  // src/constants/archery.ts
+  var ARCHERY_C = {
+    archeryUpgradeCostPerLevel: [5, 50, 100],
+    archeryUpgradeStepsPerLevel: [5, 10, 20]
+  };
+
+  // src/constants/barracks.ts
+  var BARRACKS_C = {
+    barracksUpgradeCostPerLevel: [5, 50, 100],
+    barracksUpgradeStepsPerLevel: [5, 10, 20]
+  };
+
+  // src/constants/tavern.ts
+  var TAVERN_C = {
+    tavernUpgradeCostPerLevel: [50, 100, 200],
+    tavernUpgradeStepsPerLevel: [5, 10, 20]
+  };
+
+  // src/constants/lumberjack-house.ts
+  var LUMBERJACK_HOUSE_C = {
+    lumberjackHouseUpgradeCostPerLevel: [50, 100, 200],
+    lumberjackHouseUpgradeStepsPerLevel: [5, 10, 20]
+  };
+
+  // src/constants/jewelry-workshop.ts
+  var JEWELRY_WORKSHOP_C = {
+    jewelryWorkshopUpgradeCostPerLevel: [50, 100, 200],
+    jewelryWorkshopUpgradeStepsPerLevel: [5, 10, 20]
+  };
+
+  // src/constants/combat.ts
+  var COMBAT_C = {
+    junkDamage: 8,
+    // kept for skill compatibility (reduces barrel explosion dmg)
+    clickDamage: 10,
+    // damage dealt per click-ring fire (enemies, barrels)
+    harasserClickDuration: 2,
+    torchClickDuration: 4,
+    autoClickInterval: 0.4,
+    tntFireRange: 300,
+    // px — distance at which TNT stops moving and throws
+    // Barrel system
+    barrelShoreRadius: 420,
+    // px from shelter — sky→ground transition (~6.5 tiles, near shore)
+    barrelSpawnDist: 720,
+    // px from shelter — spawn distance in water
+    barrelSkySpeed: 180,
+    // px/s while in sky phase
+    barrelGroundSpeed: 55,
+    // px/s while walking on ground
+    barrelIdleDuration: 3,
+    // seconds idle between runs
+    barrelRunDuration: 2.5,
+    // default run time before idle pause
+    barrelAttackRadius: 45,
+    // px from shelter to trigger attack
+    barrelExplosionRadius: 100,
+    // AoE explosion radius in px
+    barrelClickDuration: 3,
+    // click-ring seconds
+    hpRegenRate: 1,
+    // HP/sec — applies to all units and enemies
+    // Squad-formation ally-damage multiplier. 1.0 outside a contested/raid fight →
+    // no effect on normal island combat. Set per-fight from the formation matchup
+    // (see constants/formation.ts) and reset to BASE by applyAll().
+    formationMult: 1
+  };
+  var COMBAT_BASE = {
+    junkDamage: 1,
+    formationMult: 1
+  };
+
+  // src/constants.ts
+  var C = {
+    ...ECONOMY_C,
+    ...UNITS_C,
+    ...FORT_C,
+    ...TOWER_C,
+    ...LIGHTHOUSE_C,
+    ...ARCHERY_C,
+    ...BARRACKS_C,
+    ...TAVERN_C,
+    ...LUMBERJACK_HOUSE_C,
+    ...JEWELRY_WORKSHOP_C,
+    ...COMBAT_C,
+    ...WORLD_C,
+    ...SHEEP_C,
+    ...TREE_C,
+    ...VEIN_C
+  };
+  var BASE = {
+    ...ECONOMY_BASE,
+    ...UNITS_BASE,
+    ...FORT_BASE,
+    ...COMBAT_BASE
+  };
+
+  // src/combat-rps.ts
+  var BEATS = {
+    rock: "scissors",
+    scissors: "paper",
+    paper: "rock"
+  };
+  function getRpsMultiplier(attacker, defender) {
+    if (!attacker || !defender) return 1;
+    return BEATS[attacker] === defender ? C.rpsBonusMult : 1;
+  }
+
+  // src/units/tiers.ts
+  var UNIT_TIERS = {
+    peasant: { role: "peasant", tier: 1, hp: 100, dmg: 0, fireInterval: 0, chargeMax: 1, cargoCapacity: 1, squadSize: 1 },
+    peasant2: { role: "peasant", tier: 2, hp: 100, dmg: 0, fireInterval: 0, chargeMax: 2, cargoCapacity: 1, squadSize: 2 },
+    peasant3: { role: "peasant", tier: 3, hp: 100, dmg: 0, fireInterval: 0, chargeMax: 3, cargoCapacity: 1, squadSize: 3 },
+    lancer: { role: "lancer", tier: 1, hp: 100, dmg: 6, fireInterval: 0.6, chargeMax: 5, cargoCapacity: 0, squadSize: 2, combatType: "rock" },
+    lancer2: { role: "lancer", tier: 2, hp: 100, dmg: 6, fireInterval: 0.6, chargeMax: 5, cargoCapacity: 0, squadSize: 4, combatType: "rock" },
+    lancer3: { role: "lancer", tier: 3, hp: 100, dmg: 6, fireInterval: 0.6, chargeMax: 5, cargoCapacity: 0, squadSize: 6, combatType: "rock" },
+    archer: { role: "archer", tier: 1, hp: 100, dmg: 8, fireInterval: 0.8, chargeMax: 1, cargoCapacity: 0, squadSize: 1, combatType: "paper" },
+    archer2: { role: "archer", tier: 2, hp: 100, dmg: 8, fireInterval: 0.8, chargeMax: 1, cargoCapacity: 0, squadSize: 2, combatType: "paper" },
+    archer3: { role: "archer", tier: 3, hp: 100, dmg: 8, fireInterval: 0.8, chargeMax: 1, cargoCapacity: 0, squadSize: 3, combatType: "paper" },
+    warrior: { role: "warrior", tier: 1, hp: 100, dmg: 10, fireInterval: 1, chargeMax: 5, cargoCapacity: 0, squadSize: 1, combatType: "scissors" },
+    warrior2: { role: "warrior", tier: 2, hp: 100, dmg: 10, fireInterval: 1, chargeMax: 5, cargoCapacity: 0, squadSize: 1, combatType: "scissors" },
+    warrior3: { role: "warrior", tier: 3, hp: 100, dmg: 10, fireInterval: 1, chargeMax: 5, cargoCapacity: 0, squadSize: 1, combatType: "scissors" }
+  };
+
+  // src/constants/enemies.ts
+  var ENEMY_DEFS = {
+    // TNT: throw anim = 7 frames / 10fps = 0.7s = throwSecs; fireInterval=0 → cycle=0.7s → DPS = 7/0.7 = 10
+    TNT: {
+      color: 16755200,
+      hp: 100,
+      speed: 60,
+      spawnDistMin: 350,
+      spawnDistMax: 430,
+      attackRange: 300,
+      // matches COMBAT_C.tntFireRange
+      throwSecs: 0.7,
+      displayPx: 128,
+      frameW: 192,
+      damage: 7,
+      fireInterval: 0,
+      clickRadius: 18,
+      hpBarW: 24,
+      hpBarOffY: 10,
+      combatType: "paper"
+    },
+    // Torch: attack anim = 6 frames / 10fps = 0.6s → DPS = 6/0.6 = 10
+    Torch: {
+      color: 16729122,
+      hp: 100,
+      speed: 50,
+      spawnDistMin: 500,
+      spawnDistMax: 620,
+      attackRange: 100,
+      hitRange: 100,
+      damage: 6,
+      fireInterval: 0.6,
+      clickRadius: 14,
+      hpBarW: 36,
+      hpBarOffY: 18,
+      combatType: "scissors"
+    },
+    // Dancer: same animation layout as Torch but torch-yellow.png sprite
+    Dancer: {
+      color: 16768307,
+      hp: 100,
+      speed: 55,
+      spawnDistMin: 500,
+      spawnDistMax: 620,
+      attackRange: 100,
+      hitRange: 100,
+      damage: 6,
+      fireInterval: 0.6,
+      clickRadius: 14,
+      hpBarW: 36,
+      hpBarOffY: 18,
+      combatType: "rock"
+    },
+    Boss: {
+      color: 11149926,
+      hp: 400,
+      speed: 28,
+      spawnDistMin: 560,
+      spawnDistMax: 640,
+      attackRange: 300,
+      throwSecs: 0.7,
+      displayPx: 230,
+      frameW: 192,
+      damage: 40,
+      fireInterval: 0,
+      clickRadius: 24,
+      hpBarW: 56,
+      hpBarOffY: 32,
+      clickDurationFactor: 1.5,
+      combatType: "paper"
+    }
+  };
+
+  // src/combat-sandbox.ts
+  var W = window.innerWidth;
+  var H = window.innerHeight;
+  var PANEL_W = 220;
+  var ARENA_CX = PANEL_W + (W - PANEL_W) / 2;
+  var ARENA_CY = H / 2;
+  var WARRIOR_MELEE_RANGE = 70;
+  var ALLY_DEFS = {
+    lancer: {
+      label: "Lancer",
+      color: UNIT_TYPES.lancer.color,
+      radius: 11,
+      hp: UNIT_TIERS.lancer.hp,
+      dmg: UNIT_TIERS.lancer.dmg,
+      interval: UNIT_TIERS.lancer.fireInterval,
+      combatType: UNIT_TIERS.lancer.combatType,
+      speed: UNITS_C.lancerSpeed,
+      range: UNITS_C.lancerOrbitRadius
+    },
+    archer: {
+      label: "Archer",
+      color: UNIT_TYPES.archer.color,
+      radius: 11,
+      hp: UNIT_TIERS.archer.hp,
+      dmg: UNIT_TIERS.archer.dmg,
+      interval: UNIT_TIERS.archer.fireInterval,
+      combatType: UNIT_TIERS.archer.combatType,
+      speed: UNITS_C.unitSpeedPx,
+      range: UNITS_C.archerAttackRange
+    },
+    warrior: {
+      label: "Warrior",
+      color: UNIT_TYPES.warrior.color,
+      radius: 11,
+      hp: UNIT_TIERS.warrior.hp,
+      dmg: UNIT_TIERS.warrior.dmg,
+      interval: UNIT_TIERS.warrior.fireInterval,
+      combatType: UNIT_TIERS.warrior.combatType,
+      speed: UNITS_C.unitSpeedPx,
+      range: WARRIOR_MELEE_RANGE
+    }
+  };
+  var ENEMY_DEFS2 = {
+    TNT: {
+      label: "TNT",
+      color: ENEMY_DEFS.TNT.color,
+      radius: 11,
+      hp: ENEMY_DEFS.TNT.hp,
+      dmg: ENEMY_DEFS.TNT.damage,
+      interval: ENEMY_DEFS.TNT.throwSecs,
+      speed: ENEMY_DEFS.TNT.speed,
+      range: ENEMY_DEFS.TNT.attackRange,
+      combatType: ENEMY_DEFS.TNT.combatType
+    },
+    Torch: {
+      label: "Torch",
+      color: ENEMY_DEFS.Torch.color,
+      radius: 11,
+      hp: ENEMY_DEFS.Torch.hp,
+      dmg: ENEMY_DEFS.Torch.damage,
+      interval: ENEMY_DEFS.Torch.fireInterval,
+      speed: ENEMY_DEFS.Torch.speed,
+      range: ENEMY_DEFS.Torch.attackRange,
+      combatType: ENEMY_DEFS.Torch.combatType
+    },
+    Dancer: {
+      label: "Dancer",
+      color: ENEMY_DEFS.Dancer.color,
+      radius: 11,
+      hp: ENEMY_DEFS.Dancer.hp,
+      dmg: ENEMY_DEFS.Dancer.damage,
+      interval: ENEMY_DEFS.Dancer.fireInterval,
+      speed: ENEMY_DEFS.Dancer.speed,
+      range: ENEMY_DEFS.Dancer.attackRange,
+      combatType: ENEMY_DEFS.Dancer.combatType
+    },
+    Boss: {
+      label: "Boss",
+      color: ENEMY_DEFS.Boss.color,
+      radius: 18,
+      hp: ENEMY_DEFS.Boss.hp,
+      dmg: ENEMY_DEFS.Boss.damage,
+      interval: ENEMY_DEFS.Boss.fireInterval,
+      speed: ENEMY_DEFS.Boss.speed,
+      range: ENEMY_DEFS.Boss.attackRange,
+      combatType: ENEMY_DEFS.Boss.combatType
+    }
+  };
+  function rpsSymbol(ct) {
+    if (ct === "rock") return "\u25CF";
+    if (ct === "scissors") return "\u2702";
+    if (ct === "paper") return "\u2261";
+    return "\u2605";
+  }
+  function rpsColor(ct) {
+    if (ct === "rock") return "#ff9966";
+    if (ct === "scissors") return "#ffdd44";
+    if (ct === "paper") return "#88ccff";
+    return "#dd88ff";
+  }
+  var _uid = 0;
+  var _units = [];
+  var _scene;
+  var _hpGfx;
+  var _countTexts = {};
+  var _statsText;
+  var _battleStarted = false;
+  var _savedRoster = [];
+  var _startBattleBtn;
+  var _startBattleTxt;
+  var _resetBtn;
+  var _resetTxt;
+  function spawnUnit(side, typeName) {
+    const def = side === "ally" ? ALLY_DEFS[typeName] : ENEMY_DEFS2[typeName];
+    if (!def) return;
+    const pad = 60;
+    const sx = side === "ally" ? W - pad - Math.random() * 60 : PANEL_W + pad + Math.random() * 60;
+    const sy = 80 + Math.random() * (H - 160);
+    const arc = _scene.add.arc(sx, sy, def.radius, 0, 360, false, def.color).setDepth(2);
+    const rpsLabel = _scene.add.text(sx, sy + def.radius + 9, rpsSymbol(def.combatType), {
+      color: rpsColor(def.combatType),
+      fontFamily: "monospace",
+      fontSize: "9pt",
+      fontStyle: "bold"
+    }).setOrigin(0.5, 0).setDepth(3);
+    const hpText = _scene.add.text(sx, sy - def.radius - 10, String(def.hp), {
+      color: "#aabbcc",
+      fontFamily: "monospace",
+      fontSize: "7.5pt"
+    }).setOrigin(0.5, 1).setDepth(4);
+    _units.push({ id: _uid++, side, typeName, def, x: sx, y: sy, hp: def.hp, fireTimer: def.interval * Math.random(), dead: false, arc, rpsLabel, hpText });
+  }
+  function killUnit(u) {
+    u.dead = true;
+    const flash = _scene.add.arc(u.x, u.y, u.def.radius * 1.6, 0, 360, false, u.def.color).setAlpha(0.6).setDepth(4);
+    _scene.tweens.add({ targets: flash, scaleX: 2.2, scaleY: 2.2, alpha: 0, duration: 280, onComplete: () => flash.destroy() });
+    u.arc.destroy();
+    u.rpsLabel.destroy();
+    u.hpText.destroy();
+  }
+  function clearAll() {
+    for (const u of _units) {
+      u.dead = true;
+      u.arc.destroy();
+      u.rpsLabel.destroy();
+      u.hpText.destroy();
+    }
+    _units = [];
+  }
+  function refreshBattleButtons() {
+    _startBattleBtn.setFillStyle(_battleStarted ? 1120785 : 666122);
+    _startBattleBtn.setStrokeStyle(1, _battleStarted ? 3359795 : 4500036);
+    _startBattleTxt.setColor(_battleStarted ? "#446644" : "#88ff88");
+    const canReset = _savedRoster.length > 0;
+    _resetBtn.setFillStyle(canReset ? 2759176 : 1709328);
+    _resetBtn.setStrokeStyle(1, canReset ? 11167266 : 4469538);
+    _resetTxt.setColor(canReset ? "#ffaa44" : "#554433");
+  }
+  function startBattle() {
+    if (_battleStarted) return;
+    _savedRoster = _units.filter((u) => !u.dead).map((u) => ({ side: u.side, typeName: u.typeName }));
+    _battleStarted = true;
+    refreshBattleButtons();
+  }
+  function resetBattle() {
+    if (_savedRoster.length === 0) return;
+    clearAll();
+    _battleStarted = false;
+    for (const { side, typeName } of _savedRoster) spawnUnit(side, typeName);
+    refreshBattleButtons();
+  }
+  function showDmg(x, y, dmg, targetIsAlly) {
+    const jx = x + (Math.random() - 0.5) * 20;
+    const txt = _scene.add.text(jx, y - 8, `-${Math.round(dmg)}`, {
+      color: targetIsAlly ? "#ff4444" : "#44ccff",
+      fontFamily: "monospace",
+      fontSize: "10pt",
+      fontStyle: "bold"
+    }).setOrigin(0.5).setDepth(20);
+    _scene.tweens.add({
+      targets: txt,
+      y: txt.y - 30,
+      duration: 700,
+      ease: "Cubic.easeOut",
+      onUpdate: (tw) => {
+        txt.setAlpha(tw.progress < 0.6 ? 1 : 1 - (tw.progress - 0.6) / 0.4);
+      },
+      onComplete: () => txt.destroy()
+    });
+  }
+  function updateCombat(dt) {
+    _units = _units.filter((u) => !u.dead);
+    if (!_battleStarted) return;
+    for (const u of _units) {
+      const opponents = _units.filter((o) => o.side !== u.side);
+      const inRange = opponents.filter((o) => Math.hypot(o.x - u.x, o.y - u.y) <= u.def.range);
+      if (inRange.length > 0) {
+        u.fireTimer -= dt;
+        if (u.fireTimer <= 0) {
+          u.fireTimer += Math.max(u.def.interval, 0.05);
+          const target = inRange[Math.floor(Math.random() * inRange.length)];
+          const mult = getRpsMultiplier(u.def.combatType, target.def.combatType);
+          const dmg = u.def.dmg * mult;
+          target.hp -= dmg;
+          showDmg(target.x, target.y, dmg, target.side === "ally");
+          if (target.hp <= 0) killUnit(target);
+        }
+      } else if (opponents.length > 0) {
+        let nearest = opponents[0];
+        let nearDist = Math.hypot(opponents[0].x - u.x, opponents[0].y - u.y);
+        for (const o of opponents) {
+          const d2 = Math.hypot(o.x - u.x, o.y - u.y);
+          if (d2 < nearDist) {
+            nearDist = d2;
+            nearest = o;
+          }
+        }
+        const dx = nearest.x - u.x, dy = nearest.y - u.y;
+        const d = Math.hypot(dx, dy);
+        u.x += dx / d * u.def.speed * dt;
+        u.y += dy / d * u.def.speed * dt;
+        u.arc.setPosition(u.x, u.y);
+      } else {
+        const dx = ARENA_CX - u.x, dy = ARENA_CY - u.y;
+        const d = Math.hypot(dx, dy);
+        if (d > 20) {
+          u.x += dx / d * u.def.speed * 0.25 * dt;
+          u.y += dy / d * u.def.speed * 0.25 * dt;
+          u.arc.setPosition(u.x, u.y);
+        }
+      }
+    }
+  }
+  function applySeparation() {
+    const SEP_GAP = 5;
+    const n = _units.length;
+    for (let i = 0; i < n; i++) {
+      for (let j = i + 1; j < n; j++) {
+        const a = _units[i], b = _units[j];
+        const dx = b.x - a.x, dy = b.y - a.y;
+        const dist = Math.hypot(dx, dy) || 1e-3;
+        const minDist = a.def.radius + b.def.radius + SEP_GAP;
+        if (dist < minDist) {
+          const push = (minDist - dist) * 0.5;
+          const nx = dx / dist, ny = dy / dist;
+          a.x -= nx * push;
+          a.y -= ny * push;
+          b.x += nx * push;
+          b.y += ny * push;
+          a.arc.setPosition(a.x, a.y);
+          b.arc.setPosition(b.x, b.y);
+        }
+      }
+    }
+  }
+  function updateLabels() {
+    for (const u of _units) {
+      u.rpsLabel.setPosition(u.x, u.y + u.def.radius + 9);
+    }
+  }
+  function drawHPBars() {
+    _hpGfx.clear();
+    for (const u of _units) {
+      if (u.dead) continue;
+      const bw = u.def.radius * 4;
+      const bh = u.def.radius > 14 ? 6 : 4;
+      const bx = u.x - bw / 2, by = u.y - u.def.radius - 9;
+      const frac = Math.max(0, u.hp / u.def.hp);
+      _hpGfx.fillStyle(0, 0.6);
+      _hpGfx.fillRect(bx, by, bw, bh);
+      _hpGfx.fillStyle(frac > 0.6 ? 4513092 : frac > 0.3 ? 16768290 : 16729122, 1);
+      _hpGfx.fillRect(bx, by, bw * frac, bh);
+      u.hpText.setText(String(Math.ceil(Math.max(0, u.hp))));
+      u.hpText.setPosition(u.x, by - 1);
+    }
+  }
+  function refreshCounters() {
+    const counts = {};
+    for (const u of _units) {
+      if (!u.dead) counts[u.typeName] = (counts[u.typeName] ?? 0) + 1;
+    }
+    for (const [k, txt] of Object.entries(_countTexts)) txt.setText(String(counts[k] ?? 0));
+    const a = _units.filter((u) => !u.dead && u.side === "ally").length;
+    const e = _units.filter((u) => !u.dead && u.side === "enemy").length;
+    _statsText.setText(`Allies: ${a}   Enemies: ${e}`);
+  }
+  function buildPanel() {
+    const s = _scene;
+    const sf = 0;
+    s.add.rectangle(PANEL_W / 2, H / 2, PANEL_W, H, 789784).setScrollFactor(sf).setDepth(10);
+    const bg = s.add.graphics().setScrollFactor(sf).setDepth(10);
+    bg.lineStyle(1, 3359846, 0.9);
+    bg.lineBetween(PANEL_W, 0, PANEL_W, H);
+    s.add.text(
+      PANEL_W / 2,
+      8,
+      "COMBAT TEST",
+      { color: "#5599cc", fontFamily: "monospace", fontSize: "11pt", fontStyle: "bold" }
+    ).setOrigin(0.5, 0).setScrollFactor(sf).setDepth(11);
+    _statsText = s.add.text(
+      PANEL_W + 10,
+      8,
+      "",
+      { color: "#556677", fontFamily: "monospace", fontSize: "10pt" }
+    ).setScrollFactor(sf).setDepth(11);
+    let py = 36;
+    const divider = () => {
+      const dg = s.add.graphics().setScrollFactor(sf).setDepth(10);
+      dg.lineStyle(1, 3359829, 0.45);
+      dg.lineBetween(10, py, PANEL_W - 10, py);
+      py += 8;
+    };
+    const sectionLabel = (text, color) => {
+      s.add.text(10, py, text, { color, fontFamily: "monospace", fontSize: "9pt" }).setScrollFactor(sf).setDepth(11);
+      py += 18;
+    };
+    const unitRow = (typeName, def, side) => {
+      const ry = py;
+      s.add.arc(16, ry + 12, def.radius - 1, 0, 360, false, def.color).setScrollFactor(sf).setDepth(11);
+      s.add.text(32, ry + 4, def.label, { color: "#9aabb8", fontFamily: "monospace", fontSize: "10pt" }).setScrollFactor(sf).setDepth(11);
+      s.add.text(32, ry + 17, rpsSymbol(def.combatType), {
+        color: rpsColor(def.combatType),
+        fontFamily: "monospace",
+        fontSize: "7.5pt"
+      }).setScrollFactor(sf).setDepth(11);
+      _countTexts[typeName] = s.add.text(114, ry + 5, "0", { color: "#ffdd88", fontFamily: "monospace", fontSize: "10pt" }).setScrollFactor(sf).setDepth(11);
+      const mBg = s.add.rectangle(143, ry + 12, 24, 18, 1837064).setStrokeStyle(1, 6697779).setScrollFactor(sf).setDepth(11).setInteractive({ useHandCursor: true });
+      s.add.text(143, ry + 12, "\u2212", { color: "#ff8888", fontFamily: "monospace", fontSize: "11pt" }).setOrigin(0.5).setScrollFactor(sf).setDepth(12);
+      mBg.on("pointerdown", (_, __, ___, ev) => {
+        ev.stopPropagation();
+        const live = _units.filter((u) => !u.dead && u.side === side && u.typeName === typeName);
+        if (live.length) killUnit(live[live.length - 1]);
+      });
+      const pBg = s.add.rectangle(173, ry + 12, 24, 18, 531464).setStrokeStyle(1, 3368499).setScrollFactor(sf).setDepth(11).setInteractive({ useHandCursor: true });
+      s.add.text(173, ry + 12, "+", { color: "#88ff88", fontFamily: "monospace", fontSize: "11pt" }).setOrigin(0.5).setScrollFactor(sf).setDepth(12);
+      pBg.on("pointerdown", (_, __, ___, ev) => {
+        ev.stopPropagation();
+        spawnUnit(side, typeName);
+      });
+      py += 28;
+    };
+    sectionLabel("\u2500\u2500\u2500 ALLIES \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500", "#3d5fa0");
+    for (const [k, def] of Object.entries(ALLY_DEFS)) unitRow(k, def, "ally");
+    divider();
+    sectionLabel("\u2500\u2500\u2500 ENEMIES \u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500", "#a04030");
+    for (const [k, def] of Object.entries(ENEMY_DEFS2)) unitRow(k, def, "enemy");
+    py += 8;
+    const clearBg = s.add.rectangle(PANEL_W / 2, py + 13, PANEL_W - 20, 24, 1706506).setStrokeStyle(1, 6702148).setScrollFactor(sf).setDepth(11).setInteractive({ useHandCursor: true });
+    s.add.text(PANEL_W / 2, py + 13, "CLEAR ALL", { color: "#ff6655", fontFamily: "monospace", fontSize: "10pt" }).setOrigin(0.5).setScrollFactor(sf).setDepth(12);
+    clearBg.on("pointerdown", (_, __, ___, ev) => {
+      ev.stopPropagation();
+      resetBattle();
+      clearAll();
+    });
+    py += 20;
+    const sepG = s.add.graphics().setScrollFactor(sf).setDepth(10);
+    sepG.lineStyle(1, 3359829, 0.5);
+    sepG.lineBetween(10, py, PANEL_W - 10, py);
+    py += 20;
+    _startBattleBtn = s.add.rectangle(58, py + 13, 95, 26, 666122).setStrokeStyle(1, 4500036).setScrollFactor(sf).setDepth(11).setInteractive({ useHandCursor: true });
+    _startBattleTxt = s.add.text(58, py + 13, "START", {
+      color: "#88ff88",
+      fontFamily: "monospace",
+      fontSize: "9pt",
+      fontStyle: "bold"
+    }).setOrigin(0.5).setScrollFactor(sf).setDepth(12);
+    _startBattleBtn.on("pointerdown", (_, __, ___, ev) => {
+      ev.stopPropagation();
+      startBattle();
+    });
+    _resetBtn = s.add.rectangle(162, py + 13, 95, 26, 1709328).setStrokeStyle(1, 4469538).setScrollFactor(sf).setDepth(11).setInteractive({ useHandCursor: true });
+    _resetTxt = s.add.text(162, py + 13, "RESET", {
+      color: "#554433",
+      fontFamily: "monospace",
+      fontSize: "9pt",
+      fontStyle: "bold"
+    }).setOrigin(0.5).setScrollFactor(sf).setDepth(12);
+    _resetBtn.on("pointerdown", (_, __, ___, ev) => {
+      ev.stopPropagation();
+      resetBattle();
+    });
+    py += 36;
+    py += 10;
+    const ig = s.add.graphics().setScrollFactor(sf).setDepth(10);
+    ig.lineStyle(1, 3359829, 0.4);
+    ig.lineBetween(10, py, PANEL_W - 10, py);
+    py += 10;
+    s.add.text(PANEL_W / 2, py, "RPS BONUSES", {
+      color: "#445566",
+      fontFamily: "monospace",
+      fontSize: "8pt",
+      fontStyle: "bold"
+    }).setOrigin(0.5, 0).setScrollFactor(sf).setDepth(11);
+    py += 17;
+    const rpsRows = [
+      ["\u25CF", "rock", "beats", "\u2702 scissors"],
+      ["\u2702", "scissors", "beats", "\u2261 paper"],
+      ["\u2261", "paper", "beats", "\u25CF rock"]
+    ];
+    const rpsColMap = { "\u25CF": "#ff9966", "\u2702": "#ffdd44", "\u2261": "#88ccff" };
+    for (const [sym, attacker, , victim] of rpsRows) {
+      s.add.text(12, py, sym, { color: rpsColMap[sym], fontFamily: "monospace", fontSize: "9pt", fontStyle: "bold" }).setScrollFactor(sf).setDepth(11);
+      s.add.text(24, py, `${attacker} > ${victim}`, { color: "#667788", fontFamily: "monospace", fontSize: "8pt" }).setScrollFactor(sf).setDepth(11);
+      py += 15;
+    }
+    py += 4;
+    s.add.text(12, py, "+25% dmg on advantage", { color: "#3a6645", fontFamily: "monospace", fontSize: "7.5pt" }).setScrollFactor(sf).setDepth(11);
+    py += 15;
+    s.add.text(12, py, " \xD71.0  otherwise", { color: "#3a4455", fontFamily: "monospace", fontSize: "7.5pt" }).setScrollFactor(sf).setDepth(11);
+  }
+  new Phaser.Game({
+    type: Phaser.AUTO,
+    width: W,
+    height: H,
+    backgroundColor: "#12141e",
+    scale: { mode: Phaser.Scale.NONE, autoCenter: Phaser.Scale.CENTER_BOTH },
+    scene: { preload, create, update },
+    render: { antialias: true, antialiasGL: true, pixelArt: false }
+  });
+  function preload() {
+  }
+  function create() {
+    _scene = this;
+    const dg = _scene.add.graphics().setScrollFactor(0).setDepth(1);
+    dg.lineStyle(1, 3359846, 0.35);
+    for (let y = 0; y < H; y += 16) dg.lineBetween(ARENA_CX, y, ARENA_CX, y + 8);
+    _scene.add.text(PANEL_W + 12, 8, "ENEMIES \u2192", { color: "#774433", fontFamily: "monospace", fontSize: "10pt" }).setScrollFactor(0).setDepth(10);
+    _scene.add.text(W - 12, 8, "\u2190 ALLIES", { color: "#334477", fontFamily: "monospace", fontSize: "10pt" }).setOrigin(1, 0).setScrollFactor(0).setDepth(10);
+    _hpGfx = _scene.add.graphics().setDepth(3);
+    buildPanel();
+  }
+  function update(_t, deltaMs) {
+    updateCombat(Math.min(deltaMs / 1e3, 0.05));
+    applySeparation();
+    updateLabels();
+    drawHPBars();
+    refreshCounters();
+  }
+})();
 </script>
 </body>
 </html>
